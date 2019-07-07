@@ -92,8 +92,7 @@ By the way, maybe you need to change the name of lib of OpenCV because the versi
     ```
     ![test](face_module/sample/test1_result.png)
 
-4. Note
-    you can see what will be happen by using these MACRO.
+4. These macro[s] are important.
     ``` C++
     #define FACEDEBUG 
     #define OTHERINFO
