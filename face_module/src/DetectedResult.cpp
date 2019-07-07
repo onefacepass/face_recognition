@@ -3,7 +3,7 @@
 DetectedResult::DetectedResult()
 {
 	feature.feature = nullptr;
-	feature.feature = nullptr;
+	ageInfo.ageArray = nullptr;
 	genderInfo.genderArray = nullptr;
 	livenessInfo.isLive = nullptr;
 	confidenceLevel = 0;

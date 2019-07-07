@@ -1,8 +1,7 @@
 #include "inc/FaceDete.h"
 
-//#define USINGLIVEVIDEO
-
-#define USINGIMAGE
+#define USINGLIVEVIDEO
+//#define USINGIMAGE
 
 int main() {
 	FaceDete facedete;
@@ -12,7 +11,7 @@ int main() {
 	facedete.SetConfLevel((MFloat)0.8);
 
 	if (facedete.Loadregface() == 0)
-		return -1;
+		return 1;
 
 	Json::Value detectedResult;
 	MInt32 faceRect[4] = { 0 };
@@ -21,12 +20,14 @@ int main() {
 #ifdef USINGLIVEVIDEO
 	cv::VideoCapture cap(0);
 	if (!cap.isOpened())
-		return -1;
+		return 1;
 
 	cv::Mat frame;
 	while (cap.isOpened())
 	{
 		cap >> frame;
+
+		cv::imwrite("test.jpg",frame);
 
 		facedete.DetectFaces(frame, detectedResult);
 
@@ -38,11 +39,12 @@ int main() {
 				faceRect[j] = currFace["rect"][j].asInt();
 			}
 			facedete.DrawRetangle(frame, faceRect);
-			cout << "NO." << i << endl;
+			cout << "------------------------" << endl;
+			cout << "[identifiable]" << currFace["identifiable"] << endl;
 			cout << "[currFace]" << currFace["rect"] << endl;
-			cout << "[ID]" << currFace["id"] << endl;
-			cout << "[Name]" << currFace["name"] << endl;
-			cout << "[Major]" << currFace["major"] << endl;
+			cout << "[id]" << currFace["id"] << endl;
+			cout << "[name]" << currFace["name"] << endl;
+			cout << "[major]" << currFace["major"] << endl;
 			cout << "[confidence]" << currFace["confidence"] << endl;
 			cout << "[pathInPreload]" << currFace["pathInPreload"] << endl;
 			cout << "[age]" << currFace["age"] << endl;
@@ -59,24 +61,30 @@ int main() {
 #endif // USINGLIVEVIDEO
 
 #ifdef USINGIMAGE
-	cv::Mat frame = cv::imread("sample/test1.png");
+	cv::Mat frame = cv::imread("sample/test1_Exist.png");
+	//cv::Mat frame = cv::imread("sample/aGroupofPeople_NotExist.png");
 	facedete.DetectFaces(frame, detectedResult);
 
-	currFace = detectedResult["0"];
+	int totalFaceNum = detectedResult.size();
+	for (int i = 0; i < totalFaceNum; i++) {
+		currFace = detectedResult[std::to_string(i)];
 
-	for (int j = 0; j < 4; j++) {
-		faceRect[j] = currFace["rect"][j].asInt();
+		for (int j = 0; j < 4; j++) {
+			faceRect[j] = currFace["rect"][j].asInt();
+		}
+		facedete.DrawRetangle(frame, faceRect);
+		cout << "------------------------" << endl;
+		cout << "[identifiable]" << currFace["identifiable"] << endl;
+		cout << "[currFace]" << currFace["rect"] << endl;
+		cout << "[id]" << currFace["id"] << endl;
+		cout << "[name]" << currFace["name"] << endl;
+		cout << "[major]" << currFace["major"] << endl;
+		cout << "[confidence]" << currFace["confidence"] << endl;
+		cout << "[pathInPreload]" << currFace["pathInPreload"] << endl;
+		cout << "[age]" << currFace["age"] << endl;
+		cout << "[gender]" << currFace["gender"] << endl;
+		cout << "[liveinfo]" << currFace["liveinfo"] << endl;
 	}
-	facedete.DrawRetangle(frame, faceRect);
-	cout << "[currFace]" << currFace["rect"] << endl;
-	cout << "[ID]" << currFace["id"] << endl;
-	cout << "[Name]" << currFace["name"] << endl;
-	cout << "[Major]" << currFace["major"] << endl;
-	cout << "[confidence]" << currFace["confidence"] << endl;
-	cout << "[pathInPreload]" << currFace["pathInPreload"] << endl;
-	cout << "[age]" << currFace["age"] << endl;
-	cout << "[gender]" << currFace["gender"] << endl;
-	cout << "[liveinfo]" << currFace["liveinfo"] << endl;
 	cv::imshow("show", frame);
 	cv::waitKey(0);
 	detectedResult.clear();

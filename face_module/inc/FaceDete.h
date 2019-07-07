@@ -71,8 +71,26 @@ public:
 
 private:
 
+	/*
+	* 从图像中提取人脸特征值，只提取单张人脸
+	*
+	* @ 参数
+	*	DetectedResult
+	* @ 返回值
+	*  1 识别失败
+	*  0  识别成功
+	*/
 	void GetFeaturefromImage(Mat & image, ASF_FaceFeature &feature);
 
+	/*
+	* 当前识别结果的人来数据进行比对,即识别部分
+	* 
+	* @ 参数
+	*	DetectedResult
+	* @ 返回值
+	*  1 识别失败
+	*  0  识别成功
+	*/
 	int CompareFeature(DetectedResult& result);
 
 private:

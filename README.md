@@ -24,23 +24,13 @@ By the way, maybe you need to change the name of lib of OpenCV because the versi
     // ...
     07/01/2019  08:31 PM            15,953 5.jpg
     ```
-    - In this chapter, I put that guy into my secret preload directory:
+    - In this chapter, I put that guy's image into my preload directory which named "5.jpg":
     - ![](face_module/preload/5.jpg)
   
 2. Add target info
-    -  add info in json pattern into `peopleInfo.json`(Do not change this name):
+    -  add info about that MAN in json pattern into `peopleInfo.json`(Do not change this name):
     ``` Json
     {
-        "3" : {
-            "id": "12345678",
-            "name":"alita",
-            "major":"computer"
-        },
-        "4" : {
-            "id": "87654321",
-            "name":"hahahah",
-            "major":"science"
-        },
         "5" : {
             "id": "42",
             "name":"Linus Benedict Torvalds",
@@ -49,38 +39,50 @@ By the way, maybe you need to change the name of lib of OpenCV because the versi
     }
     ```
 3. Run 
-    - Put your favorite photo into `sample/`, just like this `sample/test1.png`
+    - Put image that you want to detecte into `sample/`, just like this `sample/test1_Exist.png`
 
     ``` C++
-    cv::Mat frame = cv::imread("sample/test1.png");
-        facedete.DetectFaces(frame, detectedResult);
+    cv::Mat frame = cv::imread("sample/test1_Exist.png");
+	//cv::Mat frame = cv::imread("sample/aGroupofPeople_NotExist.png");
+	facedete.DetectFaces(frame, detectedResult);
 
-        int totalFaceNum = detectedResult.size();
-        for (int i = 0; i < totalFaceNum; i++) {
-            currFace = detectedResult[std::to_string(i)];
+	int totalFaceNum = detectedResult.size();
+	for (int i = 0; i < totalFaceNum; i++) {
+		currFace = detectedResult[std::to_string(i)];
 
-            for (int j = 0; j < 4; j++) {
-                faceRect[j] = currFace["rect"][j].asInt();
-            }
-            facedete.DrawRetangle(frame, faceRect);
-            cout << "NO." << i << endl;
-            cout << "[currFace]" << currFace["rect"] << endl;
-            cout << "[ID]" << currFace["id"] << endl;
-            cout << "[Name]" << currFace["name"] << endl;
-            cout << "[Major]" << currFace["major"] << endl;
-            cout << "[confidence]" << currFace["confidence"] << endl;
-            cout << "[pathInPreload]" << currFace["pathInPreload"] << endl;
-            cout << "[age]" << currFace["age"] << endl;
-            cout << "[gender]" << currFace["gender"] << endl;
-            cout << "[liveinfo]" << currFace["liveinfo"] << endl;
-        }
+		for (int j = 0; j < 4; j++) {
+			faceRect[j] = currFace["rect"][j].asInt();
+		}
+		facedete.DrawRetangle(frame, faceRect);
+		cout << "------------------------" << endl;
+		cout << "[identifiable]" << currFace["identifiable"] << endl;
+		cout << "[currFace]" << currFace["rect"] << endl;
+		cout << "[id]" << currFace["id"] << endl;
+		cout << "[name]" << currFace["name"] << endl;
+		cout << "[major]" << currFace["major"] << endl;
+		cout << "[confidence]" << currFace["confidence"] << endl;
+		cout << "[pathInPreload]" << currFace["pathInPreload"] << endl;
+		cout << "[age]" << currFace["age"] << endl;
+		cout << "[gender]" << currFace["gender"] << endl;
+		cout << "[liveinfo]" << currFace["liveinfo"] << endl;
+	}
+	cv::imshow("show", frame);
+	cv::waitKey(0);
+	detectedResult.clear();
     ```
     - Result: 
     ``` 
     ...
-    [ID]"42"
-    [Name]"Linus Benedict Torvalds"
-    [Major]"F*k NVIDIA"
+    [identifiable]true
+    [currFace][
+            107,
+            44,
+            223,
+            160
+    ]
+    [id]null
+    [name]null
+    [major]null
     [confidence]0.81119471788406372
     [pathInPreload]"preload\\5.jpg"
     [age]52
@@ -89,3 +91,10 @@ By the way, maybe you need to change the name of lib of OpenCV because the versi
     ...
     ```
     ![test](face_module/sample/test1_result.png)
+
+4. Note
+    you can see what will be happen by using these MACRO.
+    ``` C++
+    #define FACEDEBUG 
+    #define OTHERINFO
+    ```
