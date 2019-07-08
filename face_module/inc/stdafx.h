@@ -14,15 +14,15 @@
 #include "json.h"
 
 /*
+*	FACEDEBUG 如果开启
+*	将在终端输出调试信息
+*
 *	OTHERINFO 如果开启
 *	将检测诸如年龄，是否为活体，性别等信息
 *
-*	FACEDEBUG 如果开启
-*	将在终端输出调试信息
 */
-
-//#define FACEDEBUG 
-#define OTHERINFO
+// #define FACEDEBUG 
+// #define OTHERINFO
 
 using namespace cv;
 using namespace std;

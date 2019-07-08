@@ -1,7 +1,7 @@
 #include "inc/FaceDete.h"
 
-#define USINGLIVEVIDEO
-//#define USINGIMAGE
+//#define USINGLIVEVIDEO
+#define USINGIMAGE
 
 int main() {
 	FaceDete facedete;
@@ -26,8 +26,6 @@ int main() {
 	while (cap.isOpened())
 	{
 		cap >> frame;
-
-		cv::imwrite("test.jpg",frame);
 
 		facedete.DetectFaces(frame, detectedResult);
 
@@ -61,8 +59,8 @@ int main() {
 #endif // USINGLIVEVIDEO
 
 #ifdef USINGIMAGE
-	cv::Mat frame = cv::imread("sample/test1_Exist.png");
-	//cv::Mat frame = cv::imread("sample/aGroupofPeople_NotExist.png");
+	//cv::Mat frame = cv::imread("sample/test1_Exist.png");
+	cv::Mat frame = cv::imread("sample/aGroupofPeople_NotExist.png");
 	facedete.DetectFaces(frame, detectedResult);
 
 	int totalFaceNum = detectedResult.size();
