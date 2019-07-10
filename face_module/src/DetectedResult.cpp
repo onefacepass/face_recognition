@@ -1,4 +1,4 @@
-﻿#include "..\inc\DetectedResult.h"
+#include "..\inc\DetectedResult.h"
 
 DetectedResult::DetectedResult()
 {

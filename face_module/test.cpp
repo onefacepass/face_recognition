@@ -6,7 +6,6 @@
 int main() {
 	FaceDete facedete;
 
-	//facedete.GetVersion();
 	facedete.SetPreloadPath("preload");
 
 	if (facedete.Loadregface() == 0)

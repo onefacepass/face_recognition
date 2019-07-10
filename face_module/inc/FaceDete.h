@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "stdafx.h"
 
 class FaceDete
@@ -60,8 +60,11 @@ public:
 
 	/*
 	* @ 返回值
-	*	>0 加载成功的数量
+	*	>0 加载成功，且其值表示注册成功的数量
 	*	0 加载失败，有可能是路径错误
+	*	-1 路径错误
+	*	-2 json文件不存在
+	*	-3 json文件读取错误，可能是json格式不规范
 	*/
 	int Loadregface();
 
