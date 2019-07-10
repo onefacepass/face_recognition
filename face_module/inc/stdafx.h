@@ -21,7 +21,7 @@
 *	将检测诸如年龄，是否为活体，性别等信息
 *
 */
-// #define FACEDEBUG 
+#define FACEDEBUG 
 // #define OTHERINFO
 
 using namespace cv;

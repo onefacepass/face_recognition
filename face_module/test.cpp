@@ -1,14 +1,13 @@
 #include "inc/FaceDete.h"
 
-//#define USINGLIVEVIDEO
-#define USINGIMAGE
+#define USINGLIVEVIDEO
+//#define USINGIMAGE
 
 int main() {
 	FaceDete facedete;
 
 	//facedete.GetVersion();
 	facedete.SetPreloadPath("preload");
-	facedete.SetConfLevel((MFloat)0.8);
 
 	if (facedete.Loadregface() == 0)
 		return 1;
@@ -23,6 +22,7 @@ int main() {
 		return 1;
 
 	cv::Mat frame;
+	std::string id;
 	while (cap.isOpened())
 	{
 		cap >> frame;

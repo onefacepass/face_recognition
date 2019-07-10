@@ -14,8 +14,15 @@ public:
 
 	void SetPreloadPath(string path);
 
+	std::string GetPreloadPath() const;
+
 	void SetConfLevel(MFloat Level);
 
+	MFloat GetConfLevel() const;
+	
+	/*
+	* 获取注册的数量
+	*/
 	size_t GetRestrSize();
 
 	/*
