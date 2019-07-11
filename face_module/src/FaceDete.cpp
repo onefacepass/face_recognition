@@ -1,4 +1,4 @@
-#include "../inc/FaceDete.h"
+﻿#include "../inc/FaceDete.h"
 
 FaceDete::FaceDete() :
 	APPID(), SDKKey()
@@ -139,10 +139,51 @@ int FaceDete::Loadregface()
 #endif // FACEDEBUG
 		return -3;
 	}
+#ifdef FACEDEBUG
+	cout <<"[DATA FROM JSON]"<< endl << peopleInfo << endl;
+#endif // FACEDEBUG
+
 	file.close();
+
+	CheckPreload();
 
 	return (int)preLoadVec.size();
 }
+
+string FaceDete::CheckPreload() {
+	stringstream msg;
+#ifdef FACEDEBUG
+	cout << "[检查preload加载以及Json文件]" << endl;
+#endif // FACEDEBUG
+	if (preLoadVec.size() != peopleInfo.size()) {
+		msg
+			<< "[WARNING]" << endl
+			<< "图片加载数量和Json数据不符" << endl
+			<< "图片加载数量为:" << preLoadVec.size() << ";"
+			<< "Json文件中数据项数量为:" << peopleInfo.size() << endl;
+	}
+	int begIndex, endIndex, tmpbeg, tmpend;
+	string purifyFilename;
+	for (auto imageObject: preLoadVec) {
+		endIndex = (int)imageObject.filename.rfind(".");
+		tmpbeg = (int)imageObject.filename.rfind('\\', endIndex) + 1;
+		tmpend = (int)imageObject.filename.rfind('/', endIndex) + 1;
+		begIndex = (tmpbeg > tmpend) ?tmpbeg:tmpend;
+		purifyFilename = imageObject.filename.substr(begIndex, endIndex - begIndex);
+		if (peopleInfo[purifyFilename].isNull()) {
+			msg
+				<< "[WARNING]"
+				<< "Json文件中没有名为" << purifyFilename << "的KEY" << endl;
+		}
+	}
+
+#ifdef FACEDEBUG
+	cout << msg.str();
+	cout << "[检查完成]" << endl;
+#endif // FACEDEBUG
+	return msg.str();
+}
+
 
 int FaceDete::DetectFaces(Mat& frame, Json::Value &detectedResult)
 {
@@ -188,7 +229,7 @@ int FaceDete::DetectFaces(Mat& frame, Json::Value &detectedResult)
 		if (MOK != res)
 		{
 #ifdef FACEDEBUG
-			cerr << "asffacefeatureextract 1 fail:" << res << endl;
+			cerr << "asffacefeatureextract fail:" << res << endl;
 #endif
 			continue;
 		}
@@ -283,10 +324,10 @@ int FaceDete::DetectFaces(Mat& frame, Json::Value &detectedResult)
 #ifdef FACEDEBUG
 		if (detectedResultVec[i].identifiable == true) {
 			cout
-				<< "MATCHED" << endl
-				<< "Source:" 
-						<<"[path]"<< detectedResultVec[i].pathInPreload <<" "
-						<<"[index]"<< detectedResultVec[i] .indexInPreload<< endl
+				<< "MATCHED RESULT" << endl
+				<< "Source:" << endl
+				<< "[path]" << detectedResultVec[i].pathInPreload << endl
+				<< "[index]" << detectedResultVec[i].indexInPreload << endl
 				<< "Confidence:" << detectedResultVec[i].confidenceLevel
 				<< endl;
 		}
@@ -306,6 +347,7 @@ int FaceDete::DetectFaces(Mat& frame, Json::Value &detectedResult)
 
 			// 利用识别结果中的对perload的索引
 			strIndex = std::to_string(detectedResultVec[i].indexInPreload);
+
 			tmpPeopleInto = Json::Value(peopleInfo[strIndex]);
 
 			tmpPeopleInto["identifiable"] = true;
@@ -378,7 +420,8 @@ int FaceDete::CompareFeature(DetectedResult& result)
 
 			if (result.confidenceLevel > maxConfidence) {
 #ifdef FACEDEBUG
-				cout <<"one face is identifiable"<<endl;
+				cerr << "MAXCONFIDENCE" << result.confidenceLevel << endl;
+				cout << "ONE FACE IS IDENTIFIABLE" << endl;
 #endif 
 				maxConfidence = result.confidenceLevel;
 				result.pathInPreload = preLoadVec[i].filename;
