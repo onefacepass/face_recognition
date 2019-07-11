@@ -1,7 +1,7 @@
 #include "inc/FaceDete.h"
 
-//#define USINGLIVEVIDEO
-#define USINGIMAGE
+#define USINGLIVEVIDEO
+//#define USINGIMAGE
 
 int main() {
 	FaceDete facedete;
