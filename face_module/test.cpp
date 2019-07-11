@@ -8,8 +8,10 @@ int main() {
 
 	facedete.SetPreloadPath("preload");
 
-	if (facedete.Loadregface() == 0)
+	string errmsg;
+	if (facedete.Loadregface(errmsg) == 0)
 		return 1;
+	cout << errmsg << endl;
 
 	Json::Value detectedResult;
 	MInt32 faceRect[4] = { 0 };

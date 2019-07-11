@@ -89,7 +89,7 @@ const ASF_VERSION* FaceDete::GetVersion()
 	return ASFGetVersion(handle);
 }
 
-int FaceDete::Loadregface()
+int FaceDete::Loadregface(string &errmsg)
 {
 	struct dirent *ptr;
 	DIR *dir;
@@ -145,7 +145,7 @@ int FaceDete::Loadregface()
 
 	file.close();
 
-	CheckPreload();
+	errmsg = CheckPreload();
 
 	return (int)preLoadVec.size();
 }
