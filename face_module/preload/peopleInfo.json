@@ -3,6 +3,10 @@
         "id": "12345678",
         "name":"alita",
         "major":"computer"
+		"grade":"计算机11",
+		"gender":"男"，
+		"contact_number":"12345664634",
+		"contact_add":"TJUT_CS"
     },
     "4" : {
         "id": "87654321",

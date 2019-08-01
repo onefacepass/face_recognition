@@ -106,8 +106,8 @@ private:
 
 	/*
 	* 检查preload图像加载情况，json文件是否确实匹配对象
-	*
-	*
+	* @ 返回值
+	*	检测结果
 	*/
 	string CheckPreload();
 
